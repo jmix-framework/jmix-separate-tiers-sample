@@ -1,0 +1,4 @@
+rootProject.name = 'jmix-separate-tiers-sample'
+
+includeBuild 'backend-app'
+includeBuild 'frontend-app'

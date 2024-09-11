@@ -1,7 +1,7 @@
 package com.company.frontend.security;
 
 import com.company.frontend.entity.User;
-import io.jmix.securitydata.user.AbstractDatabaseUserRepository;
+import io.jmix.restds.auth.AbstractRestUserRepository;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import java.util.Collection;
 
 @Primary
 @Component("UserRepository")
-public class DatabaseUserRepository extends AbstractDatabaseUserRepository<User> {
+public class RestUserRepository extends AbstractRestUserRepository<User> {
 
     @Override
     protected Class<User> getUserClass() {

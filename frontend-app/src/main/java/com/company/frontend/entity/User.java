@@ -3,10 +3,9 @@ package com.company.frontend.entity;
 import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
+import io.jmix.core.entity.annotation.JmixId;
 import io.jmix.core.entity.annotation.SystemLevel;
-import io.jmix.core.metamodel.annotation.DependsOnProperties;
-import io.jmix.core.metamodel.annotation.InstanceName;
-import io.jmix.core.metamodel.annotation.JmixEntity;
+import io.jmix.core.metamodel.annotation.*;
 import io.jmix.security.authentication.JmixUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.*;
@@ -15,44 +14,41 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.UUID;
 
-@JmixEntity
-@Entity
-@Table(name = "USER_", indexes = {
-        @Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true)
-})
+@Store(name = "backend")
+@JmixEntity(annotatedPropertiesOnly = true)
 public class User implements JmixUserDetails, HasTimeZone {
 
-    @Id
-    @Column(name = "ID")
+    @JmixProperty
+    @JmixId
     @JmixGeneratedValue
     private UUID id;
 
+    @JmixProperty
     @Version
-    @Column(name = "VERSION", nullable = false)
     private Integer version;
 
-    @Column(name = "USERNAME", nullable = false)
+    @JmixProperty
     protected String username;
 
+    @JmixProperty
     @Secret
     @SystemLevel
-    @Column(name = "PASSWORD")
     protected String password;
 
-    @Column(name = "FIRST_NAME")
+    @JmixProperty
     protected String firstName;
 
-    @Column(name = "LAST_NAME")
+    @JmixProperty
     protected String lastName;
 
+    @JmixProperty
     @Email
-    @Column(name = "EMAIL")
     protected String email;
 
-    @Column(name = "ACTIVE")
+    @JmixProperty
     protected Boolean active = true;
 
-    @Column(name = "TIME_ZONE_ID")
+    @JmixProperty
     protected String timeZoneId;
 
     @Transient

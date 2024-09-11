@@ -6,11 +6,7 @@
         <collection id="usersDc"
                     class="com.company.frontend.entity.User">
             <fetchPlan extends="_base"/>
-            <loader id="usersDl" readOnly="true">
-                <query>
-                    <![CDATA[select e from User e order by e.username]]>
-                </query>
-            </loader>
+            <loader id="usersDl" readOnly="true"/>
         </collection>
     </data>
     <actions>

@@ -1,5 +1,6 @@
 package com.company.frontend.entity;
 
+import io.jmix.core.FileRef;
 import io.jmix.core.HasTimeZone;
 import io.jmix.core.annotation.Secret;
 import io.jmix.core.entity.annotation.JmixGeneratedValue;
@@ -10,8 +11,11 @@ import io.jmix.security.authentication.JmixUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
+
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @Store(name = "backend")
@@ -50,6 +54,22 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     @JmixProperty
     protected String timeZoneId;
+
+    @JmixProperty
+    private Integer onboardingStatus;
+
+    @JmixProperty
+    private Department department;
+
+    @JmixProperty
+    @Composition
+    private List<UserStep> steps;
+
+    @JmixProperty
+    private LocalDate joiningDate;
+
+    @JmixProperty
+    private FileRef picture;
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;
@@ -163,5 +183,45 @@ public class User implements JmixUserDetails, HasTimeZone {
 
     public void setTimeZoneId(final String timeZoneId) {
         this.timeZoneId = timeZoneId;
+    }
+
+    public OnboardingStatus getOnboardingStatus() {
+        return onboardingStatus == null ? null : OnboardingStatus.fromId(onboardingStatus);
+    }
+
+    public void setOnboardingStatus(OnboardingStatus onboardingStatus) {
+        this.onboardingStatus = onboardingStatus == null ? null : onboardingStatus.getId();
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public List<UserStep> getSteps() {
+        return steps;
+    }
+
+    public void setSteps(List<UserStep> steps) {
+        this.steps = steps;
+    }
+
+    public LocalDate getJoiningDate() {
+        return joiningDate;
+    }
+
+    public void setJoiningDate(LocalDate joiningDate) {
+        this.joiningDate = joiningDate;
+    }
+
+    public FileRef getPicture() {
+        return picture;
+    }
+
+    public void setPicture(FileRef picture) {
+        this.picture = picture;
     }
 }

@@ -1,0 +1,14 @@
+<fetchPlans xmlns="http://jmix.io/schema/core/fetch-plans">
+    <fetchPlan class="com.company.backend.entity.Department" name="department-with-hrManager" extends="_base">
+        <property name="hrManager" fetchPlan="_base"/>
+    </fetchPlan>
+    <fetchPlan class="com.company.backend.entity.User" name="user-with-department" extends="_base">
+        <property name="department" fetchPlan="_base"/>
+    </fetchPlan>
+    <fetchPlan class="com.company.backend.entity.User" name="user-full" extends="_base">
+        <property name="department" fetchPlan="_base"/>
+        <property name="steps" fetchPlan="_base">
+            <property name="step" fetchPlan="_base"/>
+        </property>
+    </fetchPlan>
+</fetchPlans>

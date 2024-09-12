@@ -6,14 +6,16 @@ import com.company.frontend.entity.User;
 import com.company.frontend.entity.UserStep;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 import io.jmix.securityflowui.role.annotation.MenuPolicy;
 import io.jmix.securityflowui.role.annotation.ViewPolicy;
 
-@ResourceRole(name = "HR Manager", code = "hr-manager", scope = "UI")
-public interface HRManagerRole {
+@ResourceRole(name = "HR Manager", code = "hr-manager", scope = SecurityScope.UI)
+public interface HrManagerRole extends UiMinimalRole {
+
     @MenuPolicy(menuIds = "User.list")
     @ViewPolicy(viewIds = {"User.detail", "User.list"})
     void screens();

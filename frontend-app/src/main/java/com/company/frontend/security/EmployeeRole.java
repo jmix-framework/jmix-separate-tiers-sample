@@ -5,14 +5,16 @@ import com.company.frontend.entity.User;
 import com.company.frontend.entity.UserStep;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 import io.jmix.securityflowui.role.annotation.MenuPolicy;
 import io.jmix.securityflowui.role.annotation.ViewPolicy;
 
-@ResourceRole(name = "Employee", code = "employee", scope = "UI")
-public interface EmployeeRole {
+@ResourceRole(name = "Employee", code = "employee", scope = SecurityScope.UI)
+public interface EmployeeRole extends UiMinimalRole {
+
     @MenuPolicy(menuIds = "MyOnboardingView")
     @ViewPolicy(viewIds = "MyOnboardingView")
     void screens();

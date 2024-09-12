@@ -10,7 +10,7 @@ import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 
 @ResourceRole(name = "Employee", code = "employee", scope = "API")
-public interface EmployeeRole {
+public interface EmployeeRole extends RestDataStoreMinimalRole {
 
     @EntityAttributePolicy(entityClass = User.class,
             attributes = "*",

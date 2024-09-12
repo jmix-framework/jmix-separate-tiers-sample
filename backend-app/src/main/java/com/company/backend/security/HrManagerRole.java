@@ -11,7 +11,7 @@ import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 
 @ResourceRole(name = "HR Manager", code = "hr-manager", scope = "API")
-public interface HRManagerRole {
+public interface HrManagerRole extends RestDataStoreMinimalRole {
 
     @EntityAttributePolicy(entityClass = Department.class,
             attributes = "*",

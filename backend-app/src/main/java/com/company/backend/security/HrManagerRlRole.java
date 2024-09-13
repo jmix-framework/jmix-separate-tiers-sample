@@ -16,6 +16,6 @@ public interface HrManagerRlRole {
 
     @JpqlRowLevelPolicy(
             entityClass = User.class,
-            where = "{E}.department.hrManager.id = :current_user_id or {E}.id = :current_user_id")
+            where = "{E}.department.hrManager.id = :current_user_id")
     void department();
 }

@@ -3,14 +3,16 @@ package com.company.backend.security;
 import com.company.backend.entity.Step;
 import com.company.backend.entity.User;
 import com.company.backend.entity.UserStep;
+import io.jmix.rest.security.role.RestMinimalRole;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 
-@ResourceRole(name = "Employee", code = "employee", scope = "API")
-public interface EmployeeRole extends RestDataStoreMinimalRole {
+@ResourceRole(name = "Employee", code = "employee", scope = SecurityScope.API)
+public interface EmployeeRole extends RestMinimalRole {
 
     @EntityAttributePolicy(entityClass = User.class,
             attributes = "*",

@@ -4,14 +4,16 @@ import com.company.backend.entity.Department;
 import com.company.backend.entity.Step;
 import com.company.backend.entity.User;
 import com.company.backend.entity.UserStep;
+import io.jmix.rest.security.role.RestMinimalRole;
 import io.jmix.security.model.EntityAttributePolicyAction;
 import io.jmix.security.model.EntityPolicyAction;
+import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 
-@ResourceRole(name = "HR Manager", code = "hr-manager", scope = "API")
-public interface HrManagerRole extends RestDataStoreMinimalRole {
+@ResourceRole(name = "HR Manager", code = "hr-manager", scope = SecurityScope.API)
+public interface HrManagerRole extends RestMinimalRole {
 
     @EntityAttributePolicy(entityClass = Department.class,
             attributes = "*",

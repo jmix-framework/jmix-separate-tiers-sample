@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <view xmlns="http://jmix.io/schema/flowui/view"
       title="msg://myOnboardingView.title">
+    <!-- tag::query[] -->
     <data>
         <collection class="com.company.frontend.entity.UserStep" id="userStepsDc">
             <fetchPlan extends="_base">
@@ -19,6 +20,7 @@
             </loader>
         </collection>
     </data>
+    <!-- end::query[] -->
     <layout height="100%">
         <vbox>
             <span id="totalStepsLabel"/>

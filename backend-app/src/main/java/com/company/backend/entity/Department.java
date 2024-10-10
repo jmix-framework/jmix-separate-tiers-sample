@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
+// tag::entity[]
 @JmixEntity
 @Table(name = "DEPARTMENT", indexes = {
         @Index(name = "IDX_DEPARTMENT_HR_MANAGER", columnList = "HR_MANAGER_ID")
@@ -33,6 +34,9 @@ public class Department {
     @JoinColumn(name = "HR_MANAGER_ID")
     @ManyToOne(fetch = FetchType.LAZY)
     private User hrManager;
+
+    // getters and setters
+    // end::entity[]
 
     public User getHrManager() {
         return hrManager;

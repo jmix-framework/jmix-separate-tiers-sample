@@ -11,6 +11,7 @@ import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
 
+// tag::employee-role[]
 @ResourceRole(name = "Employee", code = "employee", scope = SecurityScope.API)
 public interface EmployeeRole extends RestMinimalRole {
 
@@ -34,3 +35,4 @@ public interface EmployeeRole extends RestMinimalRole {
             actions = EntityPolicyAction.READ)
     void step();
 }
+// end::employee-role[]

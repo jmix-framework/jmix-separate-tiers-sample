@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.Locale;
 import java.util.TimeZone;
 
+// tag::auth-token[]
 @Primary
 @Component
 public class RestLoginViewSupport extends LoginViewSupport {
@@ -19,6 +20,8 @@ public class RestLoginViewSupport extends LoginViewSupport {
     @Override
     protected Authentication createAuthenticationToken(String username, String password, Locale locale, TimeZone timeZone) {
         RestAuthenticationToken authenticationToken = new RestAuthenticationToken(username, password);
+        // ...
+        // end::auth-token[]
         VaadinServletRequest request = VaadinServletRequest.getCurrent();
 
         ClientDetails clientDetails = ClientDetails.builder()
@@ -30,6 +33,8 @@ public class RestLoginViewSupport extends LoginViewSupport {
 
         authenticationToken.setDetails(clientDetails);
 
+        // tag::auth-token[]
         return authenticationToken;
     }
 }
+// end::auth-token[]

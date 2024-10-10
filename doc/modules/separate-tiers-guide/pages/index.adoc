@@ -1,8 +1,10 @@
 = Separating Application Tiers
 
-Jmix is a full-stack framework enabling developers to build enterprise applications with user interface in Java. However, it also provides the flexibility to develop applications with separate frontend and backend tiers when required for security or scalability reasons.
+Jmix is a full-stack framework enabling developers to build enterprise applications with server-side user interface. However, it also provides the flexibility to develop applications with separate frontend and backend tiers when required for security or scalability reasons.
 
-This guide explores a sample application which can serve as an example for implementing custom solutions using the Jmix REST API and REST DataStore features.
+In this architecture, the frontend application is based on the standard Jmix UI subsystem, but it communicates with the backend application instead of directly with the database.
+
+This guide explores a sample application which can serve as an example for implementing custom solutions with separate tiers using the Jmix REST API and REST DataStore features.
 
 [NOTE]
 ====
@@ -42,9 +44,197 @@ Both applications have a user interface, but the Backend provides only the user 
 
 NOTE: In a real-world scenario, consider extracting to the frontend only the essential parts of the domain logic and UI that absolutely require separation, while keeping as much functionality as possible in the backend. This will minimize the overall complexity of the system.
 
-== TO BE CONTINUED
+[[setup-and-running]]
+== Setup and Running
+
+The applications are configured to run on different ports. In order to avoid clashing of session cookies between the web applications, their hostnames must also be different. Therefore, it is assumed that the applications will be available at the following URLs:
+
+* Frontend: http://localhost:8080[^]
+* Backend: http://host1:8081[^]
+
+Add the following entry to your `hosts` file to point `host1` to `localhost`:
+
+[source]
+./etc/hosts or C:\Windows\system32\drivers\etc\hosts
+----
+127.0.0.1       host1
+----
+
+Open the root project in IntelliJ IDEA with the Jmix Studio plugin installed.
+
+Use the run/debug configurations for the Frontend and Backend applications to launch them.
+
+[[understanding-application-behavior]]
+== Understanding Application Behavior
+
+The following three use cases demonstrate the application behavior from the perspectives of different users.
+
+. As a system administrator, create a new user account.
+
+* Access the Backend application by navigating to http://host1:8081[^] in your web browser and log in as `admin` user with `admin` password.
+* Open *Users* from the main menu. Create a new user with `john` username and select `Operations` in the *Department* field. Save the user and assign the `Employee` role to him.
++
+.Using Backend app to create a new user
+image::app-1.png[]
+
+. As an HR Manager, generate onboarding steps for the new user.
+
+* Access the Frontend application by navigating to http://localhost:8080[^] in your web browser and log in as `james` with password `1`. James has the `HR Manager` role, and he can view and manage users of his department.
+* Open *Users* from the main menu and edit the `john` record. Set a value to the *Joining date* field and click *Generate*. The application will generate onboarding steps for this user.
++
+.Using Frontend app to generate onboarding steps
+image::app-2.png[]
+
+* Log out from the Frontend application.
+
+. As the new user, complete onboarding steps.
+
+* Access the Frontend application by navigating to http://localhost:8080[^] in your web browser and log in as `john`.
+* Open *My onboarding* view, mark completed steps and click *Save*.
++
+.Using Frontend app to complete onboarding steps
+image::app-3.png[]
+
+[[implementation-details]]
+== Implementation Details
+
+[[project-configuration]]
+=== Project Configuration
+
+The Backend application includes the xref:rest:index.adoc[] and xref:authorization-server:index.adoc[] add-ons. It has the following configuration of the Authorization Server allowing the Frontend application to connect using the xref:authorization-server:obtaining-tokens.adoc#resource-owner-password-credentials-grant[Resource Owner Password Credentials] grant:
+
+[source,properties,indent=0]
+.backend-app/src/main/resources/application.properties
+----
+include::example$/backend-app/src/main/resources/application.properties[tags=auth-server-config]
+----
+
+The Frontend application includes the xref:rest-ds:index.adoc[] add-on for authenticating users through the Backend application and accessing its data. The REST DataStore is configured in the `application.properties` file of the Frontend application, along with its connection parameters:
+
+[source,properties,indent=0]
+.frontend-app/src/main/resources/application.properties
+----
+include::example$/frontend-app/src/main/resources/application.properties[tags=rest-data-store]
+----
+
+The `backend.authenticator` property specifies the usage of Resource Owner Password Credentials grant instead of the default Client Credentials grant.
+
+The `jmix.restds.authentication-provider-store` property defines the REST data store that will be used to authenticate users. The <<security>> section below provides more information about this topic.
+
+[[entities]]
+=== Entities
+
+The Frontend application contains DTO entities, identical by the structure to the JPA entities of the Backend application. Below is an example of the `Department` entity in the Backend and Frontend applications.
 
 [source,java,indent=0]
+.Department entity in Backend application
 ----
-include::example$/backend-app/build.gradle[]
+include::example$/backend-app/src/main/java/com/company/backend/entity/Department.java[tags=entity]
 ----
+
+[source,java,indent=0]
+.Department entity in Frontend application
+----
+include::example$/frontend-app/src/main/java/com/company/frontend/entity/Department.java[tags=entity]
+----
+
+[[fetch-plans]]
+=== Fetch Plans
+
+The generic REST API xref:rest:entities-api/load-entities.adoc#fetch-plans[currently supports] only named fetch plans defined in xref:data-access:fetching.adoc#creating-fetch-plans[fetch plans repository]. So the Backend and Frontend applications contain identical fetch plans and use their names when loading data.
+
+[source,xml,indent=0]
+.backend-app/src/main/resources/com/company/backend/fetch-plans.xml
+----
+include::example$/backend-app/src/main/resources/com/company/backend/fetch-plans.xml[]
+----
+
+[source,xml,indent=0]
+.frontend-app/src/main/resources/com/company/frontend/fetch-plans.xml
+----
+include::example$/frontend-app/src/main/resources/com/company/frontend/fetch-plans.xml[]
+----
+
+[[views]]
+=== Views
+
+The Frontend views are mostly identical to the views of the basic Onboarding application, with the following differences:
+
+* Named fetch plans are used instead of inline fetch plans.
+
+* `MyOnboardingView` defines the query in the JSON format of the REST API instead of JPQL:
++
+[source,xml,indent=0]
+.frontend-app/src/main/resources/com/company/frontend/
+----
+include::example$/frontend-app/src/main/resources/com/company/frontend/view/myonboarding/my-onboarding-view.xml[tags=query]
+----
++
+As this query doesn't support sorting, the sort order is defined additionally in the load delegate:
++
+[source,java,indent=0]
+.frontend-app/src/main/java/com/company/frontend/view/myonboarding/MyOnboardingView.java
+----
+include::example$/frontend-app/src/main/java/com/company/frontend/view/myonboarding/MyOnboardingView.java[tags=sorting]
+----
+
+[[security]]
+=== Security
+
+[[authentication]]
+==== Authentication
+
+The distributed system described in this guide provides end-to-end authentication of users. Both the frontend and backend code works with the security context of the logged-in user. It ensures that standard Jmix mechanisms, such as xref:security:authentication.adoc#current[CurrentAuthentication] bean, xref:data-model:entities.adoc#audit-traits[entity audit traits] or xref:audit:index.adoc[] add-on will correctly recognize the user in the Backend application.
+
+The `RestLoginViewSupport` bean in the Frontend application overrides the standard `LoginViewSupport` and creates a `RestAuthenticationToken` instead of `UsernamePasswordAuthenticationToken`:
+
+[source,java,indent=0]
+.frontend-app/src/main/java/com/company/frontend/view/myonboarding/MyOnboardingView.java
+----
+include::example$/frontend-app/src/main/java/com/company/frontend/security/RestLoginViewSupport.java[tags=auth-token]
+----
+
+This token is passed to Spring Security `AuthenticationManager` and further processed by the `RestAuthenticationProvider` bean which is configured by the REST DataStore add-on because the Frontend application contains this property:
+
+[source,properties,indent=0]
+.frontend-app/src/main/resources/application.properties
+----
+include::example$/frontend-app/src/main/resources/application.properties[tags=auth-provider-store]
+----
+
+`RestAuthenticationProvider` authenticates in the Backend's Authorization Server with the username and password, obtains access and refresh tokens and stores them in the user session.
+
+After that, when invoking the Backend REST API, the REST DataStore gets the access token from the session and passes it with requests. When the access token expires, the REST DataStore obtains a new access token using the stored refresh token. If it fails, `InvalidRefreshTokenExceptionHandler` logs out the user and redirects them to the login view.
+
+[[roles]]
+==== Roles
+
+The Frontend application defines the `RestUserRepository` bean which extends `AbstractRestUserRepository` class provided by the REST DataStore add-on. `AbstractRestUserRepository` assigns to the user all roles defined in the Frontend app that match by name to the user roles in the Backend application.
+
+For example, the user `bob` has the `employee` role assignment in the Backend's database. So when he logs in, both Backend and Frontend applications assign this role to him. However, the `EmployeeRole` classes in the Frontend and Backend applications are different and define the user permissions in the respective tiers.
+
+The `HrManagerRlRole` class in the Backend app restricts the list of users for HR Managers - they can see only users of their department.
+
+[[exception-handling]]
+=== Exception Handling
+
+The Frontend application contains a `RestDataStoreAccessException` handler that shows a notification when the Backend application is not available:
+
+[source,java,indent=0]
+.frontend-app/src/main/java/com/company/frontend/exception/RestDataStoreAccessExceptionHandler.java
+----
+include::example$/frontend-app/src/main/java/com/company/frontend/exception/RestDataStoreAccessExceptionHandler.java[tags=exception-handler]
+----
+
+The `InvalidRefreshTokenExceptionHandler` logs out the user and redirects them to the login view if the attempt to refresh a token fails:
+
+[source,java,indent=0]
+.frontend-app/src/main/java/com/company/frontend/exception/InvalidRefreshTokenExceptionHandler.java
+----
+include::example$/frontend-app/src/main/java/com/company/frontend/exception/InvalidRefreshTokenExceptionHandler.java[tags=exception-handler]
+----
+
+[[summary]]
+== Summary
+
+This guide has described the essential components involved in creating distinct frontend and backend Jmix applications that communicate via REST APIs.

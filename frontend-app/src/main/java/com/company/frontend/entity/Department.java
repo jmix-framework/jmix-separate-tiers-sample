@@ -10,6 +10,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
+// tag::entity[]
 @Store(name = "backend")
 @JmixEntity
 public class Department {
@@ -17,7 +18,6 @@ public class Department {
     @JmixId
     private UUID id;
 
-    @Version
     private Integer version;
 
     @InstanceName
@@ -26,6 +26,8 @@ public class Department {
 
     private User hrManager;
 
+    // getters and setters
+    // end::entity[]
     public User getHrManager() {
         return hrManager;
     }

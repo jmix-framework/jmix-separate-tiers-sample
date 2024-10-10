@@ -102,11 +102,13 @@ public class MyOnboardingView extends StandardView {
         updateLabels();
     }
 
+    // tag::sorting[]
     @Install(to = "userStepsDl", target = Target.DATA_LOADER)
     private List<UserStep> userStepsDlLoadDelegate(final LoadContext<UserStep> loadContext) {
         loadContext.getQuery().setSort(Sort.by("sortValue"));
         return dataManager.loadList(loadContext);
     }
+    // end::sorting[]
 
     @Subscribe(id = "userStepsDc", target = Target.DATA_CONTAINER)
     public void onUserStepsDcItemPropertyChange(final InstanceContainer.ItemPropertyChangeEvent<UserStep> event) {

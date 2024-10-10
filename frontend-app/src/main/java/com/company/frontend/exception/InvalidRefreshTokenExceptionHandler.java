@@ -10,6 +10,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+// tag::exception-handler[]
 @Component
 public class InvalidRefreshTokenExceptionHandler extends AbstractUiExceptionHandler {
 
@@ -29,3 +30,4 @@ public class InvalidRefreshTokenExceptionHandler extends AbstractUiExceptionHand
         logoutSupport.logout();
     }
 }
+// end::exception-handler[]

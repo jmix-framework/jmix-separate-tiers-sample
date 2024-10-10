@@ -12,6 +12,7 @@ import io.jmix.security.role.annotation.ResourceRole;
 import io.jmix.securityflowui.role.annotation.MenuPolicy;
 import io.jmix.securityflowui.role.annotation.ViewPolicy;
 
+// tag::employee-role[]
 @ResourceRole(name = "Employee", code = "employee", scope = SecurityScope.UI)
 public interface EmployeeRole extends UiMinimalRole {
 
@@ -40,3 +41,4 @@ public interface EmployeeRole extends UiMinimalRole {
             actions = EntityPolicyAction.READ)
     void step();
 }
+// end::employee-role[]

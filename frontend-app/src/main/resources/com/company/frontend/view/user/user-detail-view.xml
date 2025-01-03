@@ -4,8 +4,13 @@
       focusComponent="form">
     <data>
         <instance id="userDc"
-                  class="com.company.frontend.entity.User"
-                  fetchPlan="user-full">
+                  class="com.company.frontend.entity.User">
+            <fetchPlan extends="_base">
+                <property name="department" fetchPlan="_base"/>
+                <property name="steps" fetchPlan="_base">
+                    <property name="step" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
             <loader/>
             <collection id="stepsDc" property="steps"/>
         </instance>

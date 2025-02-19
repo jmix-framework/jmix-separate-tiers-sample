@@ -7,6 +7,12 @@
                   class="com.company.frontend.entity.User"
                   fetchPlan="user-full">
             <loader/>
+            <fetchPlan extends="_base">
+                <property name="department" fetchPlan="_base"/>
+                <property name="steps" fetchPlan="_base">
+                    <property name="step" fetchPlan="_base"/>
+                </property>
+            </fetchPlan>
             <collection id="stepsDc" property="steps"/>
         </instance>
         <collection class="com.company.frontend.entity.Department" id="departmentsDc">
@@ -40,6 +46,14 @@
             <comboBox id="onboardingStatusField" property="onboardingStatus"/>
             <entityComboBox id="departmentField" property="department" itemsContainer="departmentsDc"/>
             <datePicker id="joiningDateField" property="joiningDate"/>
+            <details summaryText="Picture">
+                <hbox>
+                    <fileStorageUploadField id="pictureField" property="picture" dataContainer="userDc"
+                    />
+                    <image id="image" property="picture" dataContainer="userDc" height="10em" width="10em"
+                           classNames="user-picture"/>
+                </hbox>
+            </details>
         </formLayout>
         <hbox id="buttonsPanel" classNames="buttons-panel">
             <button id="generateButton" text="Generate"/>

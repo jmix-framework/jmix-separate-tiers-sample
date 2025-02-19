@@ -68,8 +68,10 @@ public class User implements JmixUserDetails, HasTimeZone {
     @JmixProperty
     private LocalDate joiningDate;
 
+    // tag::picture[]
     @JmixProperty
     private FileRef picture;
+    // end::picture[]
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;

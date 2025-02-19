@@ -75,8 +75,10 @@ public class User implements JmixUserDetails, HasTimeZone {
     @Column(name = "JOINING_DATE")
     private LocalDate joiningDate;
 
+    // tag::picture[]
     @Column(name = "PICTURE", length = 1024)
     private FileRef picture;
+    // end::picture[]
 
     @Transient
     protected Collection<? extends GrantedAuthority> authorities;

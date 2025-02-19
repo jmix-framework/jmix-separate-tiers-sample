@@ -5,6 +5,8 @@ import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import io.jmix.core.FileStorage;
+import io.jmix.restds.filestorage.RestFileStorage;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -45,6 +47,13 @@ public class FrontendAppApplication implements AppShellConfigurator {
     DataSource dataSource(final DataSourceProperties dataSourceProperties) {
         return dataSourceProperties.initializeDataSourceBuilder().build();
     }
+
+    // tag::backendFileStorage[]
+    @Bean
+    FileStorage backendFileStorage() {
+        return new RestFileStorage("backend", "fs");
+    }
+    // end::backendFileStorage[]
 
     @EventListener
     public void printApplicationUrl(final ApplicationStartedEvent event) {

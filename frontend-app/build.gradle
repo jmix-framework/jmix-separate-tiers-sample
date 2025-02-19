@@ -29,7 +29,6 @@ dependencies {
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
     implementation 'io.jmix.security:jmix-security-data-starter'
-    implementation 'io.jmix.localfs:jmix-localfs-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
     implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
@@ -47,6 +46,7 @@ dependencies {
 configurations.implementation {
     exclude group: 'com.vaadin', module:'hilla'
     exclude group: 'com.vaadin', module:'hilla-dev'
+    exclude group: 'com.vaadin', module: 'copilot'
 }
 
 test {

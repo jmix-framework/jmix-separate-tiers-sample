@@ -11,9 +11,13 @@ import io.jmix.security.model.SecurityScope;
 import io.jmix.security.role.annotation.EntityAttributePolicy;
 import io.jmix.security.role.annotation.EntityPolicy;
 import io.jmix.security.role.annotation.ResourceRole;
+import io.jmix.security.role.annotation.SpecificPolicy;
 
+// tag::role[]
 @ResourceRole(name = "HR Manager", code = "hr-manager", scope = SecurityScope.API)
 public interface HrManagerRole extends RestMinimalRole {
+    // ...
+    // end::role[]
 
     @EntityAttributePolicy(entityClass = Department.class,
             attributes = "*",
@@ -42,4 +46,9 @@ public interface HrManagerRole extends RestMinimalRole {
     @EntityPolicy(entityClass = UserStep.class,
             actions = EntityPolicyAction.ALL)
     void userStep();
+
+    // tag::files[]
+    @SpecificPolicy(resources = {"rest.fileDownload.enabled", "rest.fileUpload.enabled"})
+    void specific();
 }
+// end::files[]

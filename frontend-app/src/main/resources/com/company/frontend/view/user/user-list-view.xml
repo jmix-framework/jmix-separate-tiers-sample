@@ -6,6 +6,9 @@
         <collection id="usersDc"
                     class="com.company.frontend.entity.User"
                     fetchPlan="user-with-department">
+            <fetchPlan extends="_base">
+                <property name="department" fetchPlan="_base"/>
+            </fetchPlan>
             <loader id="usersDl" readOnly="true"/>
         </collection>
     </data>
@@ -37,6 +40,7 @@
                 <action id="edit" type="list_edit"/>
             </actions>
             <columns resizable="true">
+                <column key="picture" sortable="false" flexGrow="0" resizable="false"/>
                 <column property="username"/>
                 <column property="firstName"/>
                 <column property="lastName"/>

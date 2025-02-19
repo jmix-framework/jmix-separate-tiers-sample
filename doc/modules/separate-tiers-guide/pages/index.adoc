@@ -141,26 +141,12 @@ include::example$/frontend-app/src/main/java/com/company/frontend/entity/Departm
 [[fetch-plans]]
 === Fetch Plans
 
-The generic REST API xref:rest:entities-api/load-entities.adoc#fetch-plans[currently supports] only named fetch plans defined in xref:data-access:fetching.adoc#creating-fetch-plans[fetch plans repository]. So the Backend and Frontend applications contain identical fetch plans and use their names when loading data.
-
-[source,xml,indent=0]
-.backend-app/src/main/resources/com/company/backend/fetch-plans.xml
-----
-include::example$/backend-app/src/main/resources/com/company/backend/fetch-plans.xml[]
-----
-
-[source,xml,indent=0]
-.frontend-app/src/main/resources/com/company/frontend/fetch-plans.xml
-----
-include::example$/frontend-app/src/main/resources/com/company/frontend/fetch-plans.xml[]
-----
+Since Jmix 2.5, the generic REST API supports both named fetch plans defined in xref:data-access:fetching.adoc#creating-fetch-plans[fetch plans repository] and inline fetch plans defined in view descriptors or created programmatically. So the Backend and Frontend applications use fetch plans for JPA and DTO entities in the same way.
 
 [[views]]
 === Views
 
 The Frontend views are mostly identical to the views of the basic Onboarding application, with the following differences:
-
-* Named fetch plans are used instead of inline fetch plans.
 
 * `MyOnboardingView` defines the query in the JSON format of the REST API instead of JPQL:
 +

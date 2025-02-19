@@ -4,8 +4,10 @@
       focusComponent="form">
     <data>
         <instance id="departmentDc"
-                  class="com.company.frontend.entity.Department"
-                  fetchPlan="department-with-hrManager">
+                  class="com.company.frontend.entity.Department">
+            <fetchPlan extends="_base">
+                <property name="hrManager" fetchPlan="_base"/>
+            </fetchPlan>
             <loader/>
         </instance>
     </data>

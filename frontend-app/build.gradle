@@ -22,20 +22,18 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.jmix.restds:jmix-restds-starter'
+    // tag::dependencies[]
+    implementation 'io.jmix.restds:jmix-restds-starter' // <1>
+    implementation 'io.jmix.flowui:jmix-flowui-restds-starter' // <2>
+    // end::dependencies[]
 
     implementation 'io.jmix.core:jmix-core-starter'
-    implementation 'io.jmix.data:jmix-eclipselink-starter'
     implementation 'io.jmix.security:jmix-security-starter'
     implementation 'io.jmix.security:jmix-security-flowui-starter'
-    implementation 'io.jmix.security:jmix-security-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-starter'
-    implementation 'io.jmix.flowui:jmix-flowui-data-starter'
     implementation 'io.jmix.flowui:jmix-flowui-themes'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
-
-    runtimeOnly 'org.hsqldb:hsqldb'
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

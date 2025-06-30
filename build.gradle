@@ -1,1 +1,6 @@
 ext.jmixCompositeProjectRoot = true
+
+tasks.register('test') {
+    dependsOn gradle.includedBuild('backend-app').task(':test')
+    dependsOn gradle.includedBuild('frontend-app').task(':test')
+}

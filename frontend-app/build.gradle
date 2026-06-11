@@ -40,13 +40,18 @@ dependencies {
     }
     testImplementation 'io.jmix.flowui:jmix-flowui-test-assist'
     implementation 'com.vaadin:vaadin-dev'
-    testImplementation 'org.springframework.boot:spring-boot-jdbc-test'
 }
 
 configurations.implementation {
     exclude group: 'com.vaadin', module: 'hilla'
     exclude group: 'com.vaadin', module: 'hilla-dev'
     exclude group: 'com.vaadin', module: 'copilot'
+
+    // Workaround: jmix-core 3.0 temporarily depends on spring-boot-starter-liquibase
+    // ("todo [SB4]"), which drags spring-boot-starter-jdbc + HikariCP into this
+    // database-less tier and makes DataSourceAutoConfiguration fail at startup.
+    // Remove once jmix-core drops the dependency.
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-liquibase'
 }
 
 test {

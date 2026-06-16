@@ -113,7 +113,7 @@ The Backend application includes the xref:rest:index.adoc[] and xref:authorizati
 include::example$/backend-app/src/main/resources/application.properties[tags=auth-server-config]
 ----
 
-To support serialization of `User` entity to JSON for storing OAuth2 tokens in the database, the backend application defines a mixin class and uses it in the `JdbcOAuth2AuthorizationServiceObjectMapperCustomizer` bean:
+To support serialization of `User` entity to JSON for storing OAuth2 tokens in the database, the backend application defines a mixin class and uses it in the `JdbcOAuth2AuthorizationServiceJsonMapperCustomizer` bean:
 
 [source,java,indent=0]
 .backend-app/src/main/java/com/company/backend/security/OAuth2TokenUserMixin.java
@@ -237,7 +237,7 @@ The Frontend views are mostly identical to the views of the basic Onboarding app
 `MyOnboardingView` defines the query in the JSON format of the REST API instead of JPQL:
 
 [source,xml,indent=0]
-.frontend-app/src/main/resources/com/company/frontend/
+.frontend-app/src/main/resources/com/company/frontend/view/myonboarding/my-onboarding-view.xml
 ----
 include::example$/frontend-app/src/main/resources/com/company/frontend/view/myonboarding/my-onboarding-view.xml[tags=query]
 ----
@@ -261,7 +261,7 @@ The distributed system described in this guide provides end-to-end authenticatio
 The `RestLoginViewSupport` bean in the Frontend application overrides the standard `LoginViewSupport` and creates a `RestAuthenticationToken` instead of `UsernamePasswordAuthenticationToken`:
 
 [source,java,indent=0]
-.frontend-app/src/main/java/com/company/frontend/view/myonboarding/MyOnboardingView.java
+.frontend-app/src/main/java/com/company/frontend/security/RestLoginViewSupport.java
 ----
 include::example$/frontend-app/src/main/java/com/company/frontend/security/RestLoginViewSupport.java[tags=auth-token]
 ----

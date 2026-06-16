@@ -1,10 +1,12 @@
 package com.company.frontend;
 
 import com.google.common.base.Strings;
+import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.component.page.Push;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.lumo.Lumo;
 import io.jmix.core.FileStorage;
 import io.jmix.restds.filestorage.RestFileStorage;
 import org.slf4j.LoggerFactory;
@@ -18,8 +20,9 @@ import org.springframework.core.env.Environment;
 
 @Push
 @Theme(value = "frontend-app")
-@PWA(name = "Frontend App", shortName = "Frontend App")
+@PWA(name = "Frontend App", shortName = "Frontend App", offline = false)
 @SpringBootApplication
+@StyleSheet(Lumo.UTILITY_STYLESHEET)
 public class FrontendAppApplication implements AppShellConfigurator {
 
     @Autowired

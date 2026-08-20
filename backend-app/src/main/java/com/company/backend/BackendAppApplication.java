@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.Environment;
+import tools.jackson.databind.json.JsonMapper;
 
 import javax.sql.DataSource;
 
@@ -55,8 +56,8 @@ public class BackendAppApplication implements AppShellConfigurator {
     // tag::tokenObjectMapperCustomizer[]
     @Bean
     JdbcOAuth2AuthorizationServiceJsonMapperCustomizer tokenObjectMapperCustomizer() {
-        return objectMapper ->
-                objectMapper.addMixIn(User.class, OAuth2TokenUserMixin.class);
+        return (JsonMapper.Builder builder) ->
+                builder.addMixIn(User.class, OAuth2TokenUserMixin.class);
     }
     // end::tokenObjectMapperCustomizer[]
 
